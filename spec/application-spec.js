@@ -57,8 +57,26 @@ describe("A Server", function() {
 });
 
 describe("A Server Canvas", function() {
-  xit("can add a Server", function() {});
-  xit("can remove a Server", function() {});
+  var serverCanvas,
+      server;
+
+  beforeEach(function() {
+    serverCanvas = new ServerCanvas();
+    server       = new Server();
+  });
+
+  it("can add a Server", function() {
+    serverCanvas.addServer(server);
+
+    expect(serverCanvas.servers.length).toEqual(1);
+  });
+
+  it("can remove a Server", function() {
+    serverCanvas.addServer(server);
+    serverCanvas.removeServer();
+
+    expect(serverCanvas.servers.length).toEqual(0);
+  });
 });
 
 describe("The Mesos App", function() {
