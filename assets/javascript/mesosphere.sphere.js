@@ -1,14 +1,17 @@
-var Scene = function() {
-  this.MAX_APPS = 2;
-  this.apps = [];
-}
+var Scene = (function() {
+  var MAX_APPS = 2;
 
-Scene.prototype.addApp = function(app) {
-  if (this.apps.length < this.MAX_APPS) {
-    this.apps.push(app);
+  return function() {
+    this.apps = [];
+
+    this.addApp = function(app) {
+      if (this.apps.length < MAX_APPS) {
+        this.apps.push(app);
+      }
+    };
+
+    this.removeApp = function(app) {
+      return this.apps.pop();
+    };
   }
-};
-
-Scene.prototype.removeApp = function(app) {
-  return this.apps.pop();
-};
+})();
