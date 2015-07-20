@@ -15,10 +15,45 @@ describe("An App", function() {
 });
 
 describe("A Server", function() {
-  xit("can have an App added", function() {});
-  xit("can have an App removed", function() {});
-  xit("can have a maximum of two Apps", function() {});
-  xit("can have a minimum of zero Apps", function() {});
+  var app,
+      scene;
+
+  beforeEach(function() {
+    app   = new App("Hadoop");
+    scene = new Scene();
+  });
+
+  it("can have an App added", function() {
+    scene.addApp(app);
+
+    expect(scene.apps.length).toEqual(1);
+  });
+
+  it("can have an App removed", function() {
+    scene.addApp(app);
+    scene.removeApp();
+    scene.removeApp();
+
+    expect(scene.apps.length).toEqual(0);
+  });
+
+  it("can have a maximum of two Apps", function() {
+    var app2 = new App("Chronos");
+    var app3 = new App("Chronos");
+
+    scene.addApp(app);
+    scene.addApp(app2);
+    scene.addApp(app3);
+
+    expect(scene.apps.length).toEqual(2);
+  });
+
+  it("can have a minimum of zero Apps", function() {
+    scene.addApp(app);
+    scene.removeApp();
+    scene.removeApp();
+    expect(scene.apps.length).toEqual(0);
+  });
 });
 
 describe("A Server Canvas", function() {
