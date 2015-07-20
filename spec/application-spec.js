@@ -1,6 +1,17 @@
 describe("An App", function() {
-  xit("has an id", function() {});
-  xit("has a name", function() {});
+  var app;
+
+  beforeEach(function() {
+    app = new App("Hadoop");
+  });
+
+  it("has an id", function() {
+    expect(app.id).toBeDefined();
+  });
+
+  it("has a name", function() {
+    expect(app.name).toEqual("Hadoop");
+  });
 });
 
 describe("A Server", function() {
