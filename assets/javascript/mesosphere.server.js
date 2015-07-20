@@ -1,4 +1,4 @@
-var Scene = (function() {
+var Server = (function() {
   var MAX_APPS = 2;
 
   return function() {

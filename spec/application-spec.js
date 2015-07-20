@@ -16,43 +16,43 @@ describe("An App", function() {
 
 describe("A Server", function() {
   var app,
-      scene;
+      server;
 
   beforeEach(function() {
     app   = new App("Hadoop");
-    scene = new Scene();
+    server = new Server();
   });
 
   it("can have an App added", function() {
-    scene.addApp(app);
+    server.addApp(app);
 
-    expect(scene.apps.length).toEqual(1);
+    expect(server.apps.length).toEqual(1);
   });
 
   it("can have an App removed", function() {
-    scene.addApp(app);
-    scene.removeApp();
-    scene.removeApp();
+    server.addApp(app);
+    server.removeApp();
+    server.removeApp();
 
-    expect(scene.apps.length).toEqual(0);
+    expect(server.apps.length).toEqual(0);
   });
 
   it("can have a maximum of two Apps", function() {
     var app2 = new App("Chronos");
     var app3 = new App("Chronos");
 
-    scene.addApp(app);
-    scene.addApp(app2);
-    scene.addApp(app3);
+    server.addApp(app);
+    server.addApp(app2);
+    server.addApp(app3);
 
-    expect(scene.apps.length).toEqual(2);
+    expect(server.apps.length).toEqual(2);
   });
 
   it("can have a minimum of zero Apps", function() {
-    scene.addApp(app);
-    scene.removeApp();
-    scene.removeApp();
-    expect(scene.apps.length).toEqual(0);
+    server.addApp(app);
+    server.removeApp();
+    server.removeApp();
+    expect(server.apps.length).toEqual(0);
   });
 });
 
