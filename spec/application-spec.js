@@ -80,12 +80,40 @@ describe("A Server Canvas", function() {
 });
 
 describe("The Mesos App", function() {
-  xit("has a Server Canvas", function() {});
-  xit("has a list of Available Apps", function() {});
-  xit("can Add a Server into the Server Canvas", function() {});
-  xit("can Destroy a Server from the Server Canvas", function() {});
-  xit("can add an App on an available Server", function() {});
-  xit("can remove the newest instance of an App", function() {});
+  var mesosApp;
+
+  beforeEach(function() {
+    mesosApp = new MesosApp();
+  });
+
+  it("has a Server Canvas", function() {
+    expect(mesosApp.serverCanvas).toBeDefined();
+  });
+
+  it("has a list of Available Apps", function() {
+    expect(mesosApp.availableApps).toBeDefined();
+  });
+
+  it("can Add a Server into the Server Canvas", function() {
+    mesosApp.addServer(new Server())
+
+    expect(mesosApp.serverCanvas.servers.length).toEqual(1);
+  });
+
+  it("can Destroy a Server from the Server Canvas", function() {
+    mesosApp.addServer(new Server())
+    mesosApp.removeServer()
+
+    expect(mesosApp.serverCanvas.servers.length).toEqual(1);
+  });
+
+  it("can add an App on an available Server", function() {
+    expect(mesosApp.addApp).toBeDefined();
+  });
+
+  it("can remove the newest instance of an App", function() {
+    expect(mesos.removeApp).toBeDefined();
+  });
 
   describe("when you Add an App", function() {
     xit("runs on the first Server running 0 Apps", function() {});
