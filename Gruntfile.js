@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['**/*.js', '**/*.scss'],
-        tasks: ['sass', 'test'],
+        tasks: ['sass', 'concat', 'test'],
         options: {
           spawn: false,
           livereload: true,
@@ -22,19 +22,30 @@ module.exports = function(grunt) {
     },
     jasmine: {
       test: {
-        src: 'assets/javascript/**/*.js',
+        src: 'assets/javascript/application.js',
         options: {
           specs: 'spec/*-spec.js'
         }
       }
-    }
+    },
+    concat: {
+      dist: {
+        src: ['assets/javascript/mesosphere.app.js',
+              'assets/javascript/mesosphere.server.js',
+              'assets/javascript/mesosphere.servercanvas.js',
+              'assets/javascript/mesosphere.mesosapp.js'],
+
+        dest: 'assets/javascript/application.js',
+      },
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Custom tasks
   grunt.registerTask('default', []);
-  grunt.registerTask('test', ['jasmine']);
+  grunt.registerTask('test', ['concat', 'jasmine']);
 };

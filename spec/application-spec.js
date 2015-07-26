@@ -86,6 +86,11 @@ describe("The Mesos App", function() {
     mesosApp = new MesosApp();
   });
 
+  afterEach(function() {
+    // Hacky "empty" the Server Canvas
+    mesosApp.serverCanvas.servers.length = 0;
+  });
+
   it("has a Server Canvas", function() {
     expect(mesosApp.serverCanvas).toBeDefined();
   });
@@ -104,7 +109,7 @@ describe("The Mesos App", function() {
     mesosApp.addServer(new Server())
     mesosApp.removeServer()
 
-    expect(mesosApp.serverCanvas.servers.length).toEqual(1);
+    expect(mesosApp.serverCanvas.servers.length).toEqual(0);
   });
 
   it("can add an App on an available Server", function() {
@@ -112,7 +117,7 @@ describe("The Mesos App", function() {
   });
 
   it("can remove the newest instance of an App", function() {
-    expect(mesos.removeApp).toBeDefined();
+    expect(mesosApp.removeApp).toBeDefined();
   });
 
   describe("when you Add an App", function() {
