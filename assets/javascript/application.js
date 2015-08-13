@@ -22,9 +22,15 @@ var Server = (function() {
       }
     };
 
-    this.removeApp = function(app) {
+    this.removeApp = function() {
       return this.apps.pop();
     };
+
+    this.latestAddedApp = function() {
+      if (this.apps.length === 0) return false;
+
+      return this.apps[this.apps.length - 1];
+    }
   }
 })();
 
@@ -60,7 +66,8 @@ var MesosApp = (function() {
    */
   var _addApp = function(app) {
     _serverCanvas.servers.forEach(function (server) {
-      if(server.addApp(app)) {
+      if (server.addApp(app)) {
+        _availableApps.push(app);
         return true;
       }
     });
@@ -69,7 +76,19 @@ var MesosApp = (function() {
   }
 
   var _removeApp = function() {
-    // TODO must remove last added app
+    if (_availableApps.length === 0) return false;
+
+    var removedApp = false,
+        latestAddedApp = _availableApps[_availableApps.length - 1];
+
+    _serverCanvas.servers.forEach(function (server) {
+      if (latestAddedApp === server.latestAddedApp()) {
+        server.removeApp();
+        removedApp = _availableApps.pop();
+      }
+    });
+
+    return removedApp;
   }
 
   return function() {

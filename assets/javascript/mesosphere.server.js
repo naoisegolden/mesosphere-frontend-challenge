@@ -17,8 +17,14 @@ var Server = (function() {
       }
     };
 
-    this.removeApp = function(app) {
+    this.removeApp = function() {
       return this.apps.pop();
     };
+
+    this.latestAddedApp = function() {
+      if (this.apps.length === 0) return false;
+
+      return this.apps[this.apps.length - 1];
+    }
   }
 })();
