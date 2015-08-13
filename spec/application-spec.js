@@ -121,19 +121,14 @@ describe("The Mesos App", function() {
   });
 
   describe("when you Add an App", function() {
-    var serverCanvas,
-        server1, server2,
-        mesosApp;
+    var mesosApp;
 
     beforeEach(function() {
-      serverCanvas = new ServerCanvas();
-      server1      = new Server();
-      server2      = new Server();
       mesosApp     = new MesosApp();
 
       // ServerCanvas with 2 servers
-      mesosApp.addServer(server1);
-      mesosApp.addServer(server2);
+      mesosApp.addServer(new Server());
+      mesosApp.addServer(new Server());
 
       // First server has 2 apps
       mesosApp.serverCanvas.servers[0].apps.length = 2;
@@ -162,6 +157,33 @@ describe("The Mesos App", function() {
       expect(mesosApp.serverCanvas.servers[0].apps.length).toEqual(2);
       expect(mesosApp.serverCanvas.servers[1].apps.length).toEqual(2);
       expect(mesosApp.serverCanvas.servers.length).toEqual(2);
+    });
+  });
+
+  describe("when you Remove an App", function() {
+    var mesosApp;
+
+    beforeEach(function() {
+      mesosApp     = new MesosApp();
+
+      // ServerCanvas with 2 servers
+      mesosApp.addServer(new Server());
+      mesosApp.addServer(new Server());
+
+      // First server has 2 apps
+      mesosApp.serverCanvas.servers[0].apps.length = 2;
+    });
+
+    it("removes the latest added App", function() {
+      var addedApp = new App("Hadoop"),
+          removedApp;
+
+      mesosApp.addApp(addedApp);
+      removedApp = mesosApp.removeApp();
+
+      expect(mesosApp.serverCanvas.servers[0].apps.length).toEqual(2);
+      expect(mesosApp.serverCanvas.servers[1].apps.length).toEqual(0);
+      expect(removedApp).toEqual(addedApp);
     });
   });
 
