@@ -9,9 +9,16 @@ var Server = (function() {
   return function() {
     this.apps = [];
 
+    /* Adds an App to the Server
+     * @param {App} app An app instance
+     * @returns {Boolean} True if app was added, false otherwise
+     */
     this.addApp = function(app) {
       if (this.apps.length < MAX_APPS) {
         this.apps.push(app);
+        return true;
+      } else {
+        return false;
       }
     };
 
@@ -47,8 +54,18 @@ var MesosApp = (function() {
     _serverCanvas.removeServer();
   }
 
-  var _addApp = function() {
-    // TODO must add app to first available server
+  /* Adds an App to Mesos App's ServerCanvas
+   * @param {App} app An app instance
+   * @returns {Boolean} True if app was added, false otherwise
+   */
+  var _addApp = function(app) {
+    _serverCanvas.servers.forEach(function (server) {
+      if(server.addApp(app)) {
+        return true;
+      }
+    });
+
+    return false;
   }
 
   var _removeApp = function() {

@@ -10,8 +10,18 @@ var MesosApp = (function() {
     _serverCanvas.removeServer();
   }
 
-  var _addApp = function() {
-    // TODO must add app to first available server
+  /* Adds an App to Mesos App's ServerCanvas
+   * @param {App} app An app instance
+   * @returns {Boolean} True if app was added, false otherwise
+   */
+  var _addApp = function(app) {
+    _serverCanvas.servers.forEach(function (server) {
+      if(server.addApp(app)) {
+        return true;
+      }
+    });
+
+    return false;
   }
 
   var _removeApp = function() {
