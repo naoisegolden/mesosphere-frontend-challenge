@@ -121,9 +121,48 @@ describe("The Mesos App", function() {
   });
 
   describe("when you Add an App", function() {
-    xit("runs on the first Server running 0 Apps", function() {});
-    xit("runs on the first Server running only 1 App if all Servers are running Apps", function() {});
-    xit("doesn't run anywhere if all Servers are full", function() {});
+    var serverCanvas,
+        server1, server2,
+        mesosApp;
+
+    beforeEach(function() {
+      serverCanvas = new ServerCanvas();
+      server1      = new Server();
+      server2      = new Server();
+      mesosApp     = new MesosApp();
+
+      // ServerCanvas with 2 servers
+      mesosApp.addServer(server1);
+      mesosApp.addServer(server2);
+
+      // First server has 2 apps
+      mesosApp.serverCanvas.servers[0].apps.length = 2;
+    });
+
+    it("runs on the first Server running 0 Apps", function() {
+      mesosApp.addApp(new App("Hadoop"));
+
+      expect(mesosApp.serverCanvas.servers[0].apps.length).toEqual(2);
+      expect(mesosApp.serverCanvas.servers[1].apps.length).toEqual(1);
+    });
+
+    it("runs on the first Server running only 1 App if all Servers are running Apps", function() {
+      mesosApp.serverCanvas.servers[1].addApp(new App("Chronos"));
+      mesosApp.addApp(new App("Chronos"));
+
+      expect(mesosApp.serverCanvas.servers[0].apps.length).toEqual(2);
+      expect(mesosApp.serverCanvas.servers[1].apps.length).toEqual(2);
+    });
+
+    it("doesn't run anywhere if all Servers are full", function() {
+      mesosApp.serverCanvas.servers[1].addApp(new App("Chronos"));
+      mesosApp.serverCanvas.servers[1].addApp(new App("Chronos"));
+      mesosApp.addApp(new App("Spark"));
+
+      expect(mesosApp.serverCanvas.servers[0].apps.length).toEqual(2);
+      expect(mesosApp.serverCanvas.servers[1].apps.length).toEqual(2);
+      expect(mesosApp.serverCanvas.servers.length).toEqual(2);
+    });
   });
 
   describe("when a Server is Destroyed", function() {
